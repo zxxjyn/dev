@@ -1,0 +1,51 @@
+dbdriver: com.mysql.jdbc.Driver
+dburl: jdbc:mysql://localhost:3306/activiti_demo?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&nullCatalogMeansCurrent=true
+dbusername: root
+dbpassword: root
+
+server:
+  port: 8081
+  servlet:
+    context-path: /workFlow
+
+spring:
+  #持久层配置
+  datasource:
+    driver-class-name: ${dbdriver}
+    url: ${dburl}
+    username: ${dbusername}
+    password: ${dbpassword}
+    tomcat:
+      max-active: 20
+      test-while-idle: true
+      validation-query: select 1
+      default-auto-commit: false
+      min-idle: 15
+      initial-size: 15
+  #工作流配置
+  activiti:
+    #check-process-definitions: false
+    process-definition-location-prefix: classpath:processes/
+    #自动扫描所有表，没有则创建
+    database-schema-update: true
+    #表示哪种情况下使用历史表，这里配置为full表示全部记录历史，方便绘制流程图
+    history-level: full
+    #表示使用历史表，如果不配置，则工程启动后可以检查数据库，只建立了17张表
+    #历史表没有建立，则流程图及运行节点无法展示（暂未找到可行方式）
+    db-history-used: true
+    mail-server-user-name: 2313872326@qq.com
+    mail-server-password: PingZX8022090
+    mail-server-use-tls: true
+  #安全模块
+  security:
+    user:
+      name: user
+      password: 123456
+logging:
+  level:
+    com:
+      tcl:
+        scm: debug
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
